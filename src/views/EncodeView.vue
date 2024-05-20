@@ -1,7 +1,11 @@
 <template>
-  <div>
-    <h1>EncodeView</h1>
-  </div>
+  <Handler
+    handlerName="Encode"
+    buttonBackground="bg-red-400"
+    buttonBorderColor="border-red-400"
+  />
 </template>
 
-<style></style>
+<script setup>
+import Handler from "@/components/Handler.vue";
+</script>
