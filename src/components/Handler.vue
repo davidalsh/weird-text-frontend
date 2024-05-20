@@ -22,6 +22,9 @@
           />
         </div>
       </form>
+      <div v-if="error" class="p-4 border-t border-gray-100">
+        <p class="text-red-500">{{ error }}</p>
+      </div>
       <div v-if="responseData" class="p-4 border-t border-gray-100">
         <span class="">Response data:</span>
         <p v-html="formattedResponseData" class="font-mono"></p>
@@ -47,16 +50,19 @@ const responseData = ref("");
 const formattedResponseData = computed(() => {
   return responseData.value.replace(/\n/g, "\\n");
 });
+const error = ref("");
 
 async function submitForm() {
   try {
+    error.value = "";
+    responseData.value = "";
     const cleanedText = text.value.replace(/\\n/g, "\n");
     const response = await axios.post(`api/v1/${route.name}/`, {
       text: cleanedText,
     });
     responseData.value = response.data.text;
-  } catch (error) {
-    console.log("error", error);
+  } catch (err) {
+    error.value = err.response?.data?.detail || "An unexpected error occurred.";
   }
 }
 </script>
